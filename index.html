@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Me</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial;
+  background: #000;
+  color: white;
+  padding-bottom: 180px; /* ✅ FIX: prevents footer overlapping PFP */
+}
+
+/* BOOT SCREEN */
+#bootScreen {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 99999;
+  color: red;
+  text-shadow: 0 0 15px red;
+}
+
+/* TEXT */
+.bootText { text-align: center; }
+.bootText h1 { margin: 0; font-size: 28px; }
+.bootText p { margin: 8px 0; opacity: 0.8; }
+
+/* BAR */
+.bootBar {
+  width: 220px;
+  height: 6px;
+  background: rgba(255,0,0,0.2);
+  border-radius: 20px;
+  margin-top: 10px;
+  overflow: hidden;
+}
+
+.bootFill {
+  height: 100%;
+  width: 0%;
+  background: red;
+  transition: width 0.2s linear;
+}
+
+/* HEADER */
+.topbar, .card {
+  text-align: center;
+  padding: 15px;
+  border-bottom: 1px solid rgba(255,0,0,0.3);
+  position: relative;   /* ✅ FIX layering safety */
+  z-index: 1;
+}
+
+.topbar h1, .card h1 {
+  color: red;
+  margin: 0;
+  text-shadow: 0 0 15px red;
+}
+
+.card p, .topbar p { opacity: 0.7; }
+
+/* VERIFIED */
+.name {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.verified {
+  width: 18px;
+  height: 18px;
+  background: red;
+  color: black;
+  font-size: 12px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+
+/* PHOTOS */
+.photosSection {
+  text-align: center;
+  margin: 15px;
+  padding: 15px;
+  border: 1px solid rgba(255,0,0,0.3);
+  border-radius: 12px;
+  position: relative;
+  z-index: 1;
+}
+
+#addPhotoBtn {
+  background: rgba(255,0,0,0.2);
+  color: white;
+  border: 1px solid red;
+  padding: 8px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+#photoGrid {
+  margin-top: 15px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 10px;
+}
+
+#photoGrid img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid red;
+  cursor: pointer;
+}
+
+/* PFP */
+.pfpUpload {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  border: 2px solid red;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  z-index: 9999;
+  background: rgba(0,0,0,0.4);
+}
+
+.pfpUpload img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* PREVIEW */
+.pfpPreview {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 999999;
+}
+
+.pfpPreview img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 20px;
+  border: 2px solid red;
+}
+
+/* FOOTER FIX */
+.card:last-of-type {
+  margin-bottom: 40px; /* ✅ FIX spacing safety */
+}
+
+.shatter {
+  animation: shatterAnim 0.7s forwards;
+  transform-origin: center;
+}
+
+@keyframes shatterAnim {
+  0% {
+    transform: scale(1) rotate(0deg);
+    filter: blur(0px);
+    opacity: 1;
+  }
+
+  20% {
+    transform: scale(1.05) rotate(-1deg);
+  }
+
+  40% {
+    transform: scale(0.98) rotate(1deg);
+  }
+
+  60% {
+    transform: scale(1.1) rotate(-2deg);
+    filter: blur(1px);
+  }
+
+  100% {
+    transform: scale(1.6) rotate(12deg);
+    opacity: 0;
+    filter: blur(8px);
+  }
+}
+
+#glassOverlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 100000;
+}
+
+/* crack flash
+.crackFlash {
+  position: fixed;
+  inset: 0;
+  background: rgba(255, 0, 0, 0.15);
+  opacity: 0;
+  animation: crackFlash 0.3s forwards;
+  pointer-events: none;
+}
+
+@keyframes crackFlash {
+  0% { opacity: 0; }
+  100% { opacity: 0.6; }
+}*/
+
+/* shards */
+.shard {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  background: red;
+  box-shadow: 0 0 20px red;
+  clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+  animation: fly 0.8s ease-out forwards;
+}
+
+@keyframes fly {
+  0% {
+    transform: translate(0,0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--x), var(--y)) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+/* ✅ SAFE SPACING SYSTEM */
+body {
+  margin: 0;
+  font-family: Arial;
+  background: #000;
+  color: white;
+
+  padding-bottom: 140px; /* safe zone for PFP */
+}
+
+/* 🔥 FORCE LAST CONTENT AWAY FROM PFP AREA */
+.contentEndSpacer {
+  height: 120px;
+}
+
+#mainContent {
+  opacity: 0;
+  transform: scale(1.03);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.pageEnter {
+  animation: pageEnter 0.6s ease forwards;
+}
+
+@keyframes pageEnter {
+  0% {
+    opacity: 0;
+    filter: blur(10px);
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: scale(1);
+  }
+}
+
+
+</style>
+</head>
+
+<body>
+
+
+
+<!-- BOOT -->
+<div id="bootScreen">
+  <div class="bootText">
+    <h1>About Me</h1>
+    <p id="bootLine">Initializing...</p>
+    <div id="bootProgress">0%</div>
+  </div>
+  <div class="bootBar">
+    <div class="bootFill" id="bootFill"></div>
+  </div>
+</div>
+
+<div id="mainContent">
+
+<div class="topbar">
+  <h1>About Me</h1>
+  <p>Neon Engine</p>
+</div>
+
+<button id="musicToggle" style="
+  position: fixed;
+  bottom: 12px;
+  right: 12px;
+  z-index: 999999;
+  background: rgba(255,0,0,0.2);
+  border: 1px solid red;
+  color: white;
+  padding: 10px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+">
+🎧 Music: OFF
+</button>
+
+<div class="card">
+  <h1 class="name">Izumi Kurogane <span class="verified">✔</span></h1>
+  <p>Izumi Kurogane is a music artist.</p>
+</div>
+
+<div class="photosSection">
+  <h2>Photos</h2>
+  <input type="file" id="photoInput" accept="image/*" multiple hidden>
+  <button id="addPhotoBtn">+ Add Photo</button>
+  <div id="photoGrid"></div>
+</div>
+
+<div class="pfpUpload" id="pfpBox">
+  <input type="file" id="pfpInput" accept="image/*" hidden>
+  <span id="pfpPlus">+</span>
+</div>
+
+<div class="pfpPreview" id="pfpPreview">
+  <img id="pfpPreviewImg">
+</div>
+
+<div class="card">
+  <p>Made by Izumi Kurogane © 2026</p>
+</div>
+
+<div class="contentEndSpacer"></div>
+
+<audio id="bgMusic" preload="auto"></audio>
+
+</div>
+
+<script>
+/* ===========================
+   MUSIC SYSTEM
+=========================== */
+const bgMusic = document.getElementById("bgMusic");
+
+const playlist = [
+  "music/worry (ultra slowed).mp3",
+  "music/Voltage_Spike.wav",
+];
+
+let currentTrack = 0;
+let musicOn = true;
+
+function playTrack(i) {
+  bgMusic.src = playlist[i];
+  bgMusic.play().catch(() => {});
+}
+
+function stopMusic() {
+  bgMusic.pause();
+  bgMusic.currentTime = 0;
+}
+
+bgMusic.addEventListener("ended", () => {
+  if (!musicOn) return;
+
+  currentTrack++;
+  if (currentTrack >= playlist.length) {
+    currentTrack = 0;
+  }
+
+  playTrack(currentTrack);
+});
+
+bgMusic.addEventListener("error", () => {
+  console.log("Music file failed to load:", bgMusic.src);
+
+  currentTrack++;
+  if (currentTrack >= playlist.length) {
+    currentTrack = 0;
+  }
+
+  playTrack(currentTrack);
+});
+
+bgMusic.loop = false; 
+
+
+/* ===========================
+   BOOT SYSTEM
+=========================== */
+const bootScreen = document.getElementById("bootScreen");
+const bootProgress = document.getElementById("bootProgress");
+const bootLine = document.getElementById("bootLine");
+const bootFill = document.getElementById("bootFill");
+const main = document.getElementById("mainContent");
+
+const toggle = document.getElementById("musicToggle");
+
+let boot = 0;
+
+const lines = [
+  "Initializing...",
+  "Loading assets...",
+  "Starting system...",
+  "Ready."
+];
+
+const bootInterval = setInterval(() => {
+  boot += 5;
+
+  bootProgress.textContent = boot + "%";
+  bootFill.style.width = boot + "%";
+
+  const index = Math.floor((boot / 100) * lines.length);
+  bootLine.textContent = lines[Math.min(index, lines.length - 1)];
+
+  if (boot >= 100) {
+    clearInterval(bootInterval);
+
+    bootScreen.classList.add("shatter");
+
+    setTimeout(() => {
+      bootScreen.style.transition = "0s";
+      bootScreen.style.transform = "scale(1.03) rotate(0.5deg)";
+
+      // crack flash overlay
+      const crack = document.createElement("div");
+      crack.className = "crackFlash";
+      document.body.appendChild(crack);
+
+      // shards
+      const shardCount = 50;
+      for (let i = 0; i < shardCount; i++) {
+        const shard = document.createElement("div");
+        shard.className = "shard";
+
+        shard.style.setProperty("--x", (Math.random() * 400 - 200) + "px");
+        shard.style.setProperty("--y", (Math.random() * 400 - 200) + "px");
+
+        shard.style.left = "50%";
+        shard.style.top = "50%";
+
+        document.body.appendChild(shard);
+
+        setTimeout(() => shard.remove(), 900);
+      }
+
+      // reveal page
+      main.style.opacity = "1";
+      main.classList.add("pageEnter");
+
+      // remove boot fully (IMPORTANT so it doesn't block clicks)
+      setTimeout(() => {
+        bootScreen.style.display = "none";
+      }, 500);
+
+      // start music after boot (autoplay depends on browser)
+      setTimeout(() => {
+        if (musicOn) {
+          playTrack(currentTrack);
+          toggle.textContent = "🎧 Music: ON";
+        }
+      }, 200);
+
+    }, 250);
+  }
+}, 100);
+
+
+/* ===========================
+   MUSIC AUTOSTART AFTER FIRST CLICK
+   (Browser autoplay rule)
+=========================== */
+document.body.addEventListener("click", () => {
+  if (musicOn && !bgMusic.src) {
+    playTrack(currentTrack);
+    toggle.textContent = "🎧 Music: ON";
+  }
+}, { once: true });
+
+
+/* ===========================
+   MUSIC TOGGLE BUTTON
+=========================== */
+toggle.addEventListener("click", () => {
+  musicOn = !musicOn;
+
+  if (musicOn) {
+    toggle.textContent = "🎧 Music: ON";
+    playTrack(currentTrack);
+  } else {
+    toggle.textContent = "🎧 Music: OFF";
+    stopMusic();
+  }
+});
+
+
+/* ===========================
+   PFP SYSTEM
+=========================== */
+const pfpBox = document.getElementById("pfpBox");
+const pfpInput = document.getElementById("pfpInput");
+const pfpPreview = document.getElementById("pfpPreview");
+const pfpPreviewImg = document.getElementById("pfpPreviewImg");
+
+let savedPfp = localStorage.getItem("savedPfp");
+
+if (savedPfp) {
+  pfpBox.innerHTML = `<img src="${savedPfp}">`;
+  pfpPreviewImg.src = savedPfp;
+}
+
+// click logic
+pfpBox.addEventListener("click", () => {
+  const hasPfp = localStorage.getItem("savedPfp");
+
+  if (hasPfp) {
+    pfpPreview.style.display = "flex";
+  } else {
+    pfpInput.click();
+  }
+});
+
+// upload pfp
+pfpInput.addEventListener("change", () => {
+  const file = pfpInput.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = e => {
+    localStorage.setItem("savedPfp", e.target.result);
+    pfpBox.innerHTML = `<img src="${e.target.result}">`;
+    pfpPreviewImg.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+});
+
+// close preview
+pfpPreview.addEventListener("click", () => {
+  pfpPreview.style.display = "none";
+});
+
+
+/* ===========================
+   PHOTOS SYSTEM
+=========================== */
+const addPhotoBtn = document.getElementById("addPhotoBtn");
+const photoInput = document.getElementById("photoInput");
+const photoGrid = document.getElementById("photoGrid");
+
+let photos = JSON.parse(localStorage.getItem("photos")) || [];
+let currentIndex = 0;
+
+// open fullscreen photo
+function openPhoto(index) {
+  currentIndex = index;
+
+  const overlay = document.createElement("div");
+  overlay.style.position = "fixed";
+  overlay.style.inset = "0";
+  overlay.style.background = "rgba(0,0,0,0.9)";
+  overlay.style.display = "flex";
+  overlay.style.justifyContent = "center";
+  overlay.style.alignItems = "center";
+  overlay.style.zIndex = "999999";
+
+  const img = document.createElement("img");
+  img.src = photos[currentIndex];
+  img.style.maxWidth = "90%";
+  img.style.maxHeight = "90%";
+  img.style.borderRadius = "20px";
+  img.style.border = "2px solid red";
+  img.style.boxShadow = "0 0 25px red";
+
+  overlay.appendChild(img);
+  overlay.onclick = () => overlay.remove();
+
+  document.body.appendChild(overlay);
+}
+
+// render photos
+function renderPhotos() {
+  photoGrid.innerHTML = "";
+
+  photos.forEach((img, index) => {
+    const el = document.createElement("img");
+    el.src = img;
+    el.onclick = () => openPhoto(index);
+    photoGrid.appendChild(el);
+  });
+}
+
+renderPhotos();
+
+// add photos
+addPhotoBtn.onclick = () => photoInput.click();
+
+photoInput.onchange = () => {
+  [...photoInput.files].forEach(file => {
+    const reader = new FileReader();
+
+    reader.onload = e => {
+      photos.push(e.target.result);
+      localStorage.setItem("photos", JSON.stringify(photos));
+      renderPhotos();
+    };
+
+    reader.readAsDataURL(file);
+  });
+};
+</script>
+
+</body>
+</html>
