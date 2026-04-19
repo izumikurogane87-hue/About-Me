@@ -365,8 +365,7 @@ const bgMusic = document.getElementById("bgMusic");
 
 const playlist = [
   "music/worry (ultra slowed).mp3",
-  "music/Neon_Shards.mp3",
-  "music/Glass_Horizon.mp3",
+  "music/Voltage_Spike.wav",
 ];
 
 let currentTrack = 0;
@@ -564,13 +563,17 @@ pfpPreview.addEventListener("click", () => {
 
 
 /* ===========================
-   PHOTOS SYSTEM
+   PHOTOS SYSTEM (GITHUB READY)
 =========================== */
-const addPhotoBtn = document.getElementById("addPhotoBtn");
-const photoInput = document.getElementById("photoInput");
+
 const photoGrid = document.getElementById("photoGrid");
 
-let photos = JSON.parse(localStorage.getItem("photos")) || [];
+let photos = [
+  "photos/gpt guy.png",
+  "photos/photo2.png",
+  // add new photos here manually
+];
+
 let currentIndex = 0;
 
 // open fullscreen photo
@@ -613,23 +616,6 @@ function renderPhotos() {
 }
 
 renderPhotos();
-
-// add photos
-addPhotoBtn.onclick = () => photoInput.click();
-
-photoInput.onchange = () => {
-  [...photoInput.files].forEach(file => {
-    const reader = new FileReader();
-
-    reader.onload = e => {
-      photos.push(e.target.result);
-      localStorage.setItem("photos", JSON.stringify(photos));
-      renderPhotos();
-    };
-
-    reader.readAsDataURL(file);
-  });
-};
 </script>
 
 </body>
