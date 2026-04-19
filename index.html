@@ -517,43 +517,23 @@ toggle.addEventListener("click", () => {
 
 
 /* ===========================
-   PFP SYSTEM
+   PFP SYSTEM (GITHUB READY)
 =========================== */
+
 const pfpBox = document.getElementById("pfpBox");
-const pfpInput = document.getElementById("pfpInput");
 const pfpPreview = document.getElementById("pfpPreview");
 const pfpPreviewImg = document.getElementById("pfpPreviewImg");
 
-let savedPfp = localStorage.getItem("savedPfp");
+// 👇 set your profile image here manually
+let savedPfp = "pfp/pfp1.png";
 
-if (savedPfp) {
-  pfpBox.innerHTML = `<img src="${savedPfp}">`;
-  pfpPreviewImg.src = savedPfp;
-}
+// apply pfp on load
+pfpBox.innerHTML = `<img src="${savedPfp}">`;
+pfpPreviewImg.src = savedPfp;
 
 // click logic
 pfpBox.addEventListener("click", () => {
-  const hasPfp = localStorage.getItem("savedPfp");
-
-  if (hasPfp) {
-    pfpPreview.style.display = "flex";
-  } else {
-    pfpInput.click();
-  }
-});
-
-// upload pfp
-pfpInput.addEventListener("change", () => {
-  const file = pfpInput.files[0];
-  if (!file) return;
-
-  const reader = new FileReader();
-  reader.onload = e => {
-    localStorage.setItem("savedPfp", e.target.result);
-    pfpBox.innerHTML = `<img src="${e.target.result}">`;
-    pfpPreviewImg.src = e.target.result;
-  };
-  reader.readAsDataURL(file);
+  pfpPreview.style.display = "flex";
 });
 
 // close preview
@@ -569,7 +549,7 @@ pfpPreview.addEventListener("click", () => {
 const photoGrid = document.getElementById("photoGrid");
 
 let photos = [
-  "photos/gpt guy.jpeg",
+  "photos/gpt guy.png",
   "photos/photo2.png",
   // add new photos here manually
 ];
