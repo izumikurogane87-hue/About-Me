@@ -303,6 +303,81 @@ body {
   border-bottom: 1px solid rgba(255,0,0,0.3); /* optional divider line */
 }
 
+.linksBox {
+  margin-top: 15px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+}
+
+.linksBox a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 12px;
+  border-radius: 14px;
+  text-decoration: none;
+
+  color: white;
+  font-weight: bold;
+
+  border: 1px solid red;
+  background: rgba(255, 0, 0, 0.12);
+
+  transition: 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* glow hover */
+.linksBox a:hover {
+  transform: translateY(-4px) scale(1.03);
+  background: rgba(255, 0, 0, 0.25);
+  box-shadow: 0 0 20px red, 0 0 40px rgba(255,0,0,0.3);
+}
+
+/* neon shine sweep effect */
+.linksBox a::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255,255,255,0.2),
+    transparent
+  );
+  transform: skewX(-20deg);
+}
+
+.linksBox a:hover::before {
+  animation: shine 0.6s ease;
+}
+
+@keyframes shine {
+  100% {
+    left: 200%;
+  }
+}
+
+.videoGrid {
+  margin-top: 15px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 15px;
+}
+
+.videoGrid iframe {
+  width: 100%;
+  height: 160px;
+  border-radius: 12px;
+  border: 1px solid red;
+}
+
 </style>
 </head>
 
@@ -381,11 +456,46 @@ body {
   </p>
 </div>
 
-<div class="card">
+ <div class="card">
   <h1>Released Songs (Check out on YouTube)</h1>
   <p>Songs that Izumi Kurogane has released on YouTube</p>
-  <div id="photoGrid"></div>
+
+  <div class="videoGrid">
+
+    <!-- VIDEO 1 -->
+    <iframe 
+      src="https://www.youtube.com/embed/aIrlkwa8fCg"
+      title="Song 1"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen>
+    </iframe>
+
+    <!-- VIDEO 2 -->
+    <iframe 
+      src="https://www.youtube.com/embed/-5ewhrJTuPk"
+      title="Song 2"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen>
+    </iframe>
+
+  </div>
 </div>
+
+<div class="card">
+  <h1>Links</h1>
+  <p>Connect with Izumi Kurogane</p>
+
+  <div class="linksBox">
+    <a href="http://www.youtube.com/@Izumikurogane1" target="_blank">YouTube</a>
+    <!--<a href="https://soundcloud.com" target="_blank">SoundCloud</a>
+    <a href="https://spotify.com" target="_blank">Spotify</a>-->
+    <a href="https://www.tiktok.com/@izumi.kurogane7?_r=1&_t=ZS-95gmx0MrDE0" target="_blank">TikTok</a>
+    <a href="https://x.com/music_izum72623" target="_blank">X</a>
+  </div>
+</div>
+
 
 <div class="pfpUpload" id="pfpBox">
   <input type="file" id="pfpInput" accept="image/*" hidden>
