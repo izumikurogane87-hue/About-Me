@@ -284,6 +284,24 @@ body {
   }
 }
 
+.footerCard {
+  margin-top: 25px;
+  border-top: 1px solid rgba(255,0,0,0.3);
+  border-bottom: none;
+}
+
+
+/* (Future me, option a, chaos version spacing between top bar and name section)
+.topbarCard {
+  margin-bottom: 25px;
+  border-top: 1px solid rgba(255,0,0,0.3);
+  border-top: none;
+}*/
+
+.spacer {
+  height: 25px; /* adjust spacing */
+  border-bottom: 1px solid rgba(255,0,0,0.3); /* optional divider line */
+}
 
 </style>
 </head>
@@ -295,7 +313,7 @@ body {
 <!-- BOOT -->
 <div id="bootScreen">
   <div class="bootText">
-    <h1>About Me</h1>
+    <h1>Izumi Kurogane | Offical Page</h1>
     <p id="bootLine">Initializing...</p>
     <div id="bootProgress">0%</div>
   </div>
@@ -306,10 +324,20 @@ body {
 
 <div id="mainContent">
 
-<div class="topbar">
-  <h1>About Me</h1>
-  <p>Neon Engine</p>
+<div class="card topbarCard">
+  <h1>Izumi Kurogane | Offical Page</h1>
+  <p>Powered by Neon Engine</p>
 </div>
+
+<!--DO NOT REMOVE, EXTRA SPACING BETWEEN TOPBAR AND NAME SECTION!! FUTURE ME
+<div class="card topbarCard">
+  <h1></h1>
+  <p></p>
+</div>-->
+
+<!-- EXTRA SPACE (DO NOT REMOVE) -->
+<div class="spacer"></div>
+
 
 <button id="musicToggle" style="
   position: fixed;
@@ -328,13 +356,34 @@ body {
 
 <div class="card">
   <h1 class="name">Izumi Kurogane <span class="verified">✔</span></h1>
-  <p>Izumi Kurogane is a music artist.</p>
+  <p>Izumi Kurogane is a Solo Music Artist.</p>
 </div>
 
-<div class="photosSection">
-  <h2>Photos</h2>
-  <input type="file" id="photoInput" accept="image/*" multiple hidden>
-  <button id="addPhotoBtn">+ Add Photo</button>
+<div class="card">
+  <h1>Who is Izumi Kurogane?</h1>
+  <p>
+    Izumi Kurogane is an independent music producer focused on creating high-energy,
+    dark, and atmospheric electronic music. Known for blending intense basslines,
+    sharp synth melodies, and aggressive rhythms, his sound is inspired by futuristic
+    neon aesthetics and underground club vibes.
+  </p>
+
+  <p>
+    His main genres include Dark Techno, Techno, Electronic, and EDM, often mixed with
+    experimental elements to create a unique signature style. Each track is designed
+    to feel cinematic, fast-paced, and immersive, like a midnight highway race
+    through a glowing cyber city.
+  </p>
+
+  <p>
+    As a rising artist, Izumi Kurogane continues to evolve his sound, pushing toward
+    heavier drops, cleaner production, and more powerful energy in every release.
+  </p>
+</div>
+
+<div class="card">
+  <h1>Released Songs (Check out on YouTube)</h1>
+  <p>Songs that Izumi Kurogane has released on YouTube</p>
   <div id="photoGrid"></div>
 </div>
 
@@ -347,8 +396,8 @@ body {
   <img id="pfpPreviewImg">
 </div>
 
-<div class="card">
-  <p>Made by Izumi Kurogane © 2026</p>
+<div class="card footerCard">
+  <p>© 2026Izumi Kurogane | All rights reserved</p>
 </div>
 
 <div class="contentEndSpacer"></div>
@@ -421,9 +470,11 @@ let boot = 0;
 
 const lines = [
   "Initializing...",
-  "Loading assets...",
   "Starting system...",
-  "Ready."
+  "Loading assets...",
+  "Loading releases...",
+  "Ready...",
+  
 ];
 
 const bootInterval = setInterval(() => {
@@ -549,7 +600,7 @@ pfpPreview.addEventListener("click", () => {
 const photoGrid = document.getElementById("photoGrid");
 
 let photos = [
-  "photos/gpt guy.jpeg",
+  "photos/photo1.png",
   "photos/photo2.png",
   // add new photos here manually
 ];
